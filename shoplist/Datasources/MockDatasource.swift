@@ -1,29 +1,24 @@
-//
-//  MockDatasource.swift
-//  shoplist
-//
-//  Created by Krzysztof Piatkowski on 09/01/2018.
-//  Copyright © 2018 Krzysztof Piatkowski. All rights reserved.
-//
-
 import Foundation
 
 class MockDatasource {
-    var items = ["test1", "test2", "test3"].map{
-        ShoppingItem(name: $0)
+    func getLists(completion:([ShoppingList]) -> Void) {
+        completion([
+            ShoppingList(id: "1", name:"list1"),
+            ShoppingList(id: "2", name:"list2")
+        ])
     }
     
-    func getItems(completion: ([ShoppingItem]) -> Void) {
-        completion(self.items)
+    func getItems(list: ShoppingList, completion:([ShoppingItem]) -> Void){
+        completion(["test1", "test2", "test3"].map{
+            ShoppingItem(id: $0, name: $0, done: false)
+        })
+    }
+    
+    func mark(item: ShoppingItem, done: Bool, completion: (ShoppingItem) -> Void) {
+        completion(ShoppingItem(id: item.id, name: item.name, done: done))
     }
     
     func deleteItem(item:ShoppingItem, completion: (Bool) -> Void) {
-        let index = self.items.index(where: {$0.name == item.name})
-        if let index = index {
-            items.remove(at: index)
-            completion(true)
-        } else {
-            completion(false)
-        }
+        completion(true)
     }
 }

@@ -1,6 +1,6 @@
 platform :ios, '11.2'
 
-target 'shoplist' do
+target 'shoppingList' do
   use_frameworks!
   inhibit_all_warnings!
 

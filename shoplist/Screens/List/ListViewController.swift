@@ -3,18 +3,24 @@ import PinLayout
 
 class ListViewController : BaseViewController {
     let datasource = MockDatasource()
+    let list:ShoppingList
     var items:[ShoppingItem]?
     
     fileprivate var mainView: ListView {
         return self.view as! ListView
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    init(list:ShoppingList) {
+        self.list = list
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func loadView() {
+        view = ListView()
     }
     
     override func viewDidLoad() {
@@ -25,21 +31,21 @@ class ListViewController : BaseViewController {
         mainView.tableView.dataSource = self
         mainView.tableView.delegate = self
         
-        datasource.getItems { (items) in
+        datasource.getItems(list:self.list) { (items) in
             self.items = items
         }
     }
     
-    override func loadView() {
-        view = ListView()
-    }
-
-    func handleDone(indexPath: IndexPath, completion:(_: Bool) -> Void) {
-        completion(true)
-    }
-    
-    func handleDelete(indexPath: IndexPath, completion:(_: Bool) -> Void) {
-        datasource.deleteItem(item: items![indexPath.row], completion: completion)
+    func onToggleDone(indexPath: IndexPath, completion:(Bool) -> Void) {
+        let item = items?[indexPath.row]
+        if let item = item {
+            datasource.mark(item: item, done: !item.done) { item in
+                let cell = mainView.tableView.cellForRow(at: indexPath) as! ListCell
+                items?[indexPath.row] = item
+                cell.item = item
+                completion(true)
+            }
+        }
     }
 }
 
@@ -50,7 +56,6 @@ extension ListViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(ListCell.self, for: indexPath)
-        
         cell.item = items?[indexPath.row]
         return cell
     }
@@ -62,19 +67,11 @@ extension ListViewController : UITableViewDataSource {
 
 extension ListViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let doneAction = UIContextualAction(style: .normal, title: "", handler: { (action, view, completion) in
-            self.handleDone(indexPath: indexPath, completion: completion)
+        
+        let item = items![indexPath.row]
+        let toggleDoneAction = UIContextualAction(style: .normal, title: item.done ? "Todo" : "Done", handler: { (action, view, completion) in
+            self.onToggleDone(indexPath: indexPath, completion: completion)
         })
-        doneAction.image = UIImage.init(named: "done")
-        return UISwipeActionsConfiguration(actions: [doneAction])
-    }
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "", handler: { (action, view, completion) in
-            self.handleDelete(indexPath: indexPath, completion: completion)
-        })
-        deleteAction.image = UIImage.init(named: "delete")
-        return UISwipeActionsConfiguration(actions: [deleteAction])
-
+        return UISwipeActionsConfiguration(actions: [toggleDoneAction])
     }
 }
