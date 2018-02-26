@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 final class Animations {
-    static func borderAnimation(is editing: Bool) -> CAAnimation {
+    static func borderAnimation(is editing: Bool) -> CABasicAnimation {
         let from = !editing ? Colors.inputBorderColor.cgColor : Colors.clear.cgColor
         let to = editing ? Colors.inputBorderColor.cgColor : Colors.clear.cgColor
 

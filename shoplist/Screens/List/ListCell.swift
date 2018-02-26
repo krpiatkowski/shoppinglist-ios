@@ -8,14 +8,18 @@ class ListCell : UITableViewCell {
                 return
             }
             self.titleLabel.text = item.storeItem.name
+            self.titleLabel.textColor = item.done ? Colors.markedDoneText : Colors.normalText
             self.numberTextField.text = String(item.amount)
+            self.numberTextField.textColor = item.done ? Colors.markedDoneText : Colors.normalText
+            self.seperatorLabel.textColor = item.done ? Colors.markedDoneText : Colors.normalText
         }
     }
 
     private let numberTextField = UITextField()
     private let titleLabel = UILabel()
     private let seperatorLabel = UILabel()
-    private let doneView = UIView()
+
+    private var swipping = false
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -45,11 +49,20 @@ class ListCell : UITableViewCell {
         titleLabel.pin.right(of: seperatorLabel).marginLeft(5).right().top().bottom()
     }
 
+    override func willTransition(to state: UITableViewCellStateMask) {
+        swipping = state == .showingDeleteConfirmationMask
+    }
+
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
+        if swipping {
+            return
+        }
         numberTextField.isEnabled = editing
         if animated {
-            numberTextField.layer.add(Animations.borderAnimation(is: editing), forKey: #keyPath(CALayer.borderColor))
+            let animation = Animations.borderAnimation(is: editing)
+            numberTextField.layer.add(animation, forKey: #keyPath(CALayer.borderColor))
+            numberTextField.layer.borderColor = (animation.toValue as! CGColor)
         } else {
             numberTextField.layer.borderColor = editing ? Colors.inputBorderColor.cgColor : Colors.clear.cgColor
         }

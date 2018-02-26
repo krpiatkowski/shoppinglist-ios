@@ -55,6 +55,9 @@ class ListViewController : BaseViewController {
         super.setEditing(editing, animated: animated)
 
         mainView.isEditing = editing
+        if mainView.tableView.isEditing {
+            mainView.tableView.setEditing(false, animated: animated)
+        }
         mainView.tableView.setEditing(editing, animated: animated)
         mainView.toggleEdit(animated: animated)
 
