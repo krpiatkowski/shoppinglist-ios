@@ -3,9 +3,11 @@ import PinLayout
 
 class ListViewController : BaseViewController {
     let datasource = MockDatasource()
-    let list:ShoppingList
+    private let titleTextView = UITextField()
+
+    var list:ShoppingList
     var items:[ShoppingItem]?
-    
+
     fileprivate var mainView: ListView {
         return self.view as! ListView
     }
@@ -31,11 +33,48 @@ class ListViewController : BaseViewController {
         mainView.tableView.dataSource = self
         mainView.tableView.delegate = self
         
+        titleTextView.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        titleTextView.text = list.name
+        titleTextView.textAlignment = .center
+        titleTextView.layer.borderColor = UIColor.clear.cgColor
+        titleTextView.layer.borderWidth = 1.0
+        titleTextView.layer.cornerRadius = 5
+
+        titleTextView.pin.width(200)
+
+        navigationItem.title = list.name
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: self, action: #selector(ListViewController.toggleEdit))
+        setEditing(false, animated: false)
+
         datasource.getItems(list:self.list) { (items) in
             self.items = items
         }
     }
-    
+
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+
+        mainView.isEditing = editing
+        mainView.tableView.setEditing(editing, animated: animated)
+        mainView.toggleEdit(animated: animated)
+
+        navigationItem.rightBarButtonItem?.title = editing ? "Done" : "Edit"
+
+        navigationItem.titleView = titleTextView
+        navigationItem.title = list.name
+        if animated {
+            titleTextView.layer.add(Animations.borderAnimation(is: editing), forKey: #keyPath(CALayer.borderColor))
+        } else {
+            titleTextView.layer.borderColor = editing ? Colors.inputBorderColor.cgColor : Colors.clear.cgColor
+        }
+        titleTextView.isEnabled = editing
+    }
+
+    @objc
+    func toggleEdit(){
+        setEditing(!isEditing, animated: true)
+    }
+
     func onToggleDone(indexPath: IndexPath, completion:(Bool) -> Void) {
         let item = items?[indexPath.row]
         if let item = item {

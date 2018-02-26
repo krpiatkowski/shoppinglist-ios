@@ -21,9 +21,18 @@ class ListsViewController : BaseViewController {
         mainView.tableView.dataSource = self
         mainView.tableView.delegate = self
         
+        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action:#selector(ListsViewController.onAdd))
+        navigationItem.rightBarButtonItem = addButton
+        
         datasource.getLists { lists in
             self.lists = lists
         }
+    }
+    
+    @objc
+    func onAdd(){
+        let list = ShoppingList(id: "1", name: "new list")
+        navigationController?.pushViewController(ListViewController(list:list), animated: true)
     }
 }
 
