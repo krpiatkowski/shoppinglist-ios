@@ -2,16 +2,22 @@ import Foundation
 
 class MockDatasource {
     func getLists(completion:([ShoppingList]) -> Void) {
-        completion([
-            ShoppingList(id: "1", name:"list1"),
-            ShoppingList(id: "2", name:"list2")
-        ])
+
+        var items = [ShoppingList]();
+        for i in 1...15 {
+            items.append(ShoppingList(id: "\(i)", name:"list\(i)"))
+        }
+
+        completion(items)
     }
     
     func getItems(list: ShoppingList, completion:([ShoppingItem]) -> Void){
-        completion(["test1", "test2", "test3"].map{
-            ShoppingItem(id: $0, amount: 1, storeItem: StoreItem(id: $0, name: $0), done: false)
-        })
+        var items = [ShoppingItem]();
+        for i in 1...15 {
+            let id = "\(i)"
+            items.append(ShoppingItem(id: id, amount: 1, storeItem: StoreItem(id: "\(i)", name: "\(i)"), done: false))
+        }
+        completion(items)
     }
     
     func mark(item: ShoppingItem, done: Bool, completion: (ShoppingItem) -> Void) {

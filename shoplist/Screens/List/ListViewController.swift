@@ -109,11 +109,17 @@ extension ListViewController : UITableViewDataSource {
 
 extension ListViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
+
         let item = items![indexPath.row]
+
         let toggleDoneAction = UIContextualAction(style: .normal, title: item.done ? "Todo" : "Done", handler: { (action, view, completion) in
             self.onToggleDone(indexPath: indexPath, completion: completion)
         })
+
         return UISwipeActionsConfiguration(actions: [toggleDoneAction])
+    }
+
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
     }
 }
