@@ -13,6 +13,5 @@ final class Animations {
         animation.fillMode = kCAFillModeForwards
         animation.isRemovedOnCompletion = false
         return animation
-
     }
 }

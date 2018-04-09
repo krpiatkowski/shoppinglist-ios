@@ -1,7 +1,7 @@
 import UIKit
 import PinLayout
 
-class ListViewController : BaseViewController {
+class ListViewController : BaseViewController, KeyboardAvoidable {
     let datasource = MockDatasource()
     private let titleTextView = UITextField()
 
@@ -20,7 +20,20 @@ class ListViewController : BaseViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        addKeyboardObservers()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        removeKeyboardObservers()
+    }
+
+
+    func willShowKeyboard(info: KeyboardAttributes) {
+
+    }
+
     override func loadView() {
         view = ListView()
     }
@@ -51,6 +64,11 @@ class ListViewController : BaseViewController {
         }
     }
 
+    @objc
+    func toggleEdit(){
+        setEditing(!isEditing, animated: true)
+    }
+
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
 
@@ -73,11 +91,6 @@ class ListViewController : BaseViewController {
         titleTextView.isEnabled = editing
     }
 
-    @objc
-    func toggleEdit(){
-        setEditing(!isEditing, animated: true)
-    }
-
     func onToggleDone(indexPath: IndexPath, completion:(Bool) -> Void) {
         let item = items?[indexPath.row]
         if let item = item {
@@ -87,6 +100,26 @@ class ListViewController : BaseViewController {
                 cell.item = item
                 completion(true)
             }
+        }
+    }
+
+    func onItemTitleSelected(cell: ListCell) {
+        guard let indexPath = mainView.tableView.indexPath(for: cell) else {
+            return
+        }
+        mainView.tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 1000))
+
+        let otherCells = self.mainView.tableView.visibleCells.filter { other in
+            return other != cell
+        }
+
+        UIView.animate(withDuration: 0.7) {
+            let offset = self.setNavigationBarHidden(true)
+            otherCells.forEach { c in c.alpha = 0 }
+            cell.setEditingTitle(true)
+            self.navigationController?.navigationBar.alpha = 0
+            self.mainView.tableView.frame = self.mainView.tableView.frame.offsetBy(dx: 0, dy: offset)
+            self.mainView.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: false)
         }
     }
 }
@@ -99,6 +132,7 @@ extension ListViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(ListCell.self, for: indexPath)
         cell.item = items?[indexPath.row]
+        cell.onTitleSelected = onItemTitleSelected
         return cell
     }
     

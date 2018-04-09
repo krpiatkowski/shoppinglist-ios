@@ -23,10 +23,12 @@
 		468449D01FFA6F4C00236BFC /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468449CF1FFA6F4C00236BFC /* BaseViewController.swift */; };
 		468449D21FFA6FE300236BFC /* UIEdgeInsets+PinLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468449D11FFA6FE300236BFC /* UIEdgeInsets+PinLayout.swift */; };
 		468449D51FFA713600236BFC /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468449D41FFA713600236BFC /* ListView.swift */; };
+		46AE74C8207A970600E29B6F /* UIViewController+navigationbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AE74C7207A970600E29B6F /* UIViewController+navigationbar.swift */; };
 		46B64F771FFA864E00C4005F /* UITableViewCell+identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B64F761FFA864E00C4005F /* UITableViewCell+identifier.swift */; };
 		46B64F791FFA86ED00C4005F /* UITableView+identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B64F781FFA86ED00C4005F /* UITableView+identifier.swift */; };
 		46B64F7B1FFA8B0400C4005F /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B64F7A1FFA8B0400C4005F /* ListCell.swift */; };
 		46B64F7E1FFA8E0B00C4005F /* ShoppingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B64F7D1FFA8E0B00C4005F /* ShoppingItem.swift */; };
+		46D9E0FC2073EA3300ADC4F7 /* UIViewController+KeyboardAvoidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D9E0FB2073EA3300ADC4F7 /* UIViewController+KeyboardAvoidable.swift */; };
 		46E6086F200543B100CEA163 /* MockDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E6086E200543B100CEA163 /* MockDatasource.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,10 +50,12 @@
 		468449CF1FFA6F4C00236BFC /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		468449D11FFA6FE300236BFC /* UIEdgeInsets+PinLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+PinLayout.swift"; sourceTree = "<group>"; };
 		468449D41FFA713600236BFC /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		46AE74C7207A970600E29B6F /* UIViewController+navigationbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+navigationbar.swift"; sourceTree = "<group>"; };
 		46B64F761FFA864E00C4005F /* UITableViewCell+identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+identifier.swift"; sourceTree = "<group>"; };
 		46B64F781FFA86ED00C4005F /* UITableView+identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+identifier.swift"; sourceTree = "<group>"; };
 		46B64F7A1FFA8B0400C4005F /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		46B64F7D1FFA8E0B00C4005F /* ShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItem.swift; sourceTree = "<group>"; };
+		46D9E0FB2073EA3300ADC4F7 /* UIViewController+KeyboardAvoidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+KeyboardAvoidable.swift"; sourceTree = "<group>"; };
 		46E6086E200543B100CEA163 /* MockDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDatasource.swift; sourceTree = "<group>"; };
 		75FAE1335FE14AE5A4F6E68D /* Pods-shoppingList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shoppingList.release.xcconfig"; path = "Pods/Target Support Files/Pods-shoppingList/Pods-shoppingList.release.xcconfig"; sourceTree = "<group>"; };
 		A1569626B00F4C7B94C7676A /* Pods-shoppingList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shoppingList.debug.xcconfig"; path = "Pods/Target Support Files/Pods-shoppingList/Pods-shoppingList.debug.xcconfig"; sourceTree = "<group>"; };
@@ -138,7 +142,6 @@
 			children = (
 				468449CD1FFA6F3A00236BFC /* BaseView.swift */,
 				468449CF1FFA6F4C00236BFC /* BaseViewController.swift */,
-				468449D11FFA6FE300236BFC /* UIEdgeInsets+PinLayout.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -156,8 +159,11 @@
 		46B64F751FFA862400C4005F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				468449D11FFA6FE300236BFC /* UIEdgeInsets+PinLayout.swift */,
+				46D9E0FB2073EA3300ADC4F7 /* UIViewController+KeyboardAvoidable.swift */,
 				46B64F761FFA864E00C4005F /* UITableViewCell+identifier.swift */,
 				46B64F781FFA86ED00C4005F /* UITableView+identifier.swift */,
+				46AE74C7207A970600E29B6F /* UIViewController+navigationbar.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -325,6 +331,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46D9E0FC2073EA3300ADC4F7 /* UIViewController+KeyboardAvoidable.swift in Sources */,
 				468449CE1FFA6F3A00236BFC /* BaseView.swift in Sources */,
 				466E5080201D17BE00682A3C /* ListsView.swift in Sources */,
 				468449D01FFA6F4C00236BFC /* BaseViewController.swift in Sources */,
@@ -336,6 +343,7 @@
 				46E6086F200543B100CEA163 /* MockDatasource.swift in Sources */,
 				468449D51FFA713600236BFC /* ListView.swift in Sources */,
 				460D6D261FFA603F00D066A5 /* ListViewController.swift in Sources */,
+				46AE74C8207A970600E29B6F /* UIViewController+navigationbar.swift in Sources */,
 				466E5082201D180900682A3C /* ShoppingList.swift in Sources */,
 				460D6D141FFA5F5D00D066A5 /* AppDelegate.swift in Sources */,
 				46B64F7B1FFA8B0400C4005F /* ListCell.swift in Sources */,
